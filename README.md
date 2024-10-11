@@ -1,6 +1,6 @@
 ## Unidad 3
 # Ejercicio 1
-Un protocolo binario es un conjunto de reglas que definen cómo se debe estructurar y transmitir la información entre dispositivos utilizando datos binarios (0 y 1). +se transmiten directamente secuencias binarias que representan comandos, respuestas y datos.
+Un protocolo binario es un conjunto de reglas que definen cómo se debe estructurar y transmitir la información entre dispositivos utilizando datos binarios (0 y 1). se transmiten directamente secuencias binarias que representan comandos, respuestas y datos.
 
 # 1. Cómo se ve un protocolo binario
 Un protocolo binario define un conjunto de mensajes que contienen secuencias específicas de bits. Cada mensaje suele tener un formato estructurado que incluye partes que indican:
@@ -44,7 +44,7 @@ En el formato little endian, el byte de menor peso, se almacena o se transmite p
 
 - Ej: Supongamos que tienes el número hexadecimal 0x12345678. En formato little endian, los bytes se almacenarían de la siguiente forma:
 
-kotlin
+`kotlin`
 - Byte 1: 0x78 (menor peso)
 - Byte 2: 0x56
 - Byte 3: 0x34
@@ -54,7 +54,7 @@ En el formato big endian, el byte de mayor peso se almacena o se transmite prime
 
 - Ej: Utilizando el mismo número 0x12345678, en formato big endian, los bytes se almacenarían de la siguiente forma:
 
-kotlin
+`kotlin`
 - Byte 1: 0x12 (mayor peso)
 - Byte 2: 0x34
 - Byte 3: 0x56
@@ -135,4 +135,5 @@ void loop() {
             Serial.write(arr3, 4);
         }
     }
+}
 ```
