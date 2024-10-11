@@ -163,3 +163,88 @@ if (_serialPort.BytesToRead >= 4) {
 - `_serialPort.Read(buffer, 0, 4);` Si hay suficientes bytes disponibles, se leen 4 bytes del puerto serie y se almacenan en el buffer, comenzando en el índice 0.
 
 - `for (int i = 0; i < 4; i++)` `{ Console.Write(buffer[i].ToString("X2") + " "); }` Este bucle recorre los 4 bytes leídos del buffer. Cada byte se convierte a una representación hexadecimal de dos dígitos (con el formato "X2") y se imprime en la consola. Esto es útil para depurar y ver los datos que se han recibido.
+
+## Ejercicio 7 
+- código que envía dos números en punto flotante desde un microcontrolador (como un Arduino) a través de una conexión serie:
+
+```
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    // Definir dos números en punto flotante
+    static float num1 = 7890.1234;
+    static float num2 = 5432.5678;
+
+    // Crear buffers para almacenar los bytes de cada número
+    static uint8_t arr1[4] = {0};
+    static uint8_t arr2[4] = {0};
+
+    if (Serial.available()) {
+        // Leer un carácter del puerto serial
+        if (Serial.read() == 's') {
+            // Copiar los números a sus respectivos buffers en formato IEEE 754
+            memcpy(arr1, (uint8_t *)&num1, 4);
+            memcpy(arr2, (uint8_t *)&num2, 4);
+
+            // Enviar num1 en formato little endian (por defecto)
+            Serial.write(arr1, 4);
+            
+            // Enviar num2 en formato big endian
+            for (int8_t i = 3; i >= 0; i--) {
+                Serial.write(arr2[i]);
+            }
+        }
+    }
+}
+```
+
+- recibe esos datos en Unity y modificar las dimensiones de un GameObject en función de los valores recibidos
+
+```
+using System;
+using System.IO.Ports;
+using UnityEngine;
+
+public class SerialReceiver : MonoBehaviour
+{
+    SerialPort _serialPort = new SerialPort("COM3", 115200); // Cambia "COM3" según tu configuración
+    private GameObject targetObject; // El objeto que deseas modificar
+
+    void Start()
+    {
+        _serialPort.Open();
+        targetObject = GameObject.Find("YourGameObjectName"); // Asegúrate de que el objeto esté en la escena
+    }
+
+    void Update()
+    {
+        // Leer datos si hay al menos 8 bytes disponibles
+        if (_serialPort.BytesToRead >= 8)
+        {
+            byte[] buffer1 = new byte[4];
+            byte[] buffer2 = new byte[4];
+
+            // Leer los primeros 4 bytes (num1)
+            _serialPort.Read(buffer1, 0, 4);
+            // Leer los siguientes 4 bytes (num2)
+            _serialPort.Read(buffer2, 0, 4);
+
+            // Convertir bytes a float
+            float num1 = BitConverter.ToSingle(buffer1, 0);
+            float num2 = BitConverter.ToSingle(buffer2.Reverse().ToArray(), 0); // Big endian
+
+            // Modificar las dimensiones del GameObject
+            targetObject.transform.localScale = new Vector3(num1, num2, targetObject.transform.localScale.z);
+            Debug.Log($"Received: num1 = {num1}, num2 = {num2}");
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        _serialPort.Close();
+    }
+}
+```
+
