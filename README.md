@@ -1,17 +1,15 @@
 ## Unidad 3
 # Ejercicio 1
-Un protocolo binario es un conjunto de reglas que definen cómo se debe estructurar y transmitir la información entre dispositivos utilizando datos binarios (0s y 1s). En este tipo de comunicación, se transmiten directamente secuencias binarias que representan comandos, respuestas y datos.
+Un protocolo binario es un conjunto de reglas que definen cómo se debe estructurar y transmitir la información entre dispositivos utilizando datos binarios (0 y 1). +se transmiten directamente secuencias binarias que representan comandos, respuestas y datos.
 
-# 1. ¿Cómo se ve un protocolo binario?
+# 1. Cómo se ve un protocolo binario
 Un protocolo binario define un conjunto de mensajes que contienen secuencias específicas de bits. Cada mensaje suele tener un formato estructurado que incluye partes que indican:
 
-Instrucciones que el sensor debe ejecutar.
-Datos que se desean leer o escribir.
-Respuestas del sensor.
-Por ejemplo, en el protocolo de este sensor, los mensajes están compuestos de varios campos, cada uno con una cantidad específica de bits, que permiten transmitir información precisa de manera eficiente y compacta.
+- Instrucciones que el sensor debe ejecutar.
+- Datos que se desean leer o escribir.
+- Respuestas del sensor.
 
-# 2. ¿Puedes describir las partes de un mensaje?
-Un mensaje en un protocolo binario típico puede tener las siguientes partes:
+# 2. Un mensaje en un protocolo binario típico puede tener las siguientes partes:
 
 - Cabecera (Header): Generalmente, la primera parte del mensaje que contiene información sobre el tipo de mensaje o el inicio de la comunicación.
 
@@ -23,8 +21,9 @@ Un mensaje en un protocolo binario típico puede tener las siguientes partes:
 
 - Terminator: A veces, se incluye un finalizador o delimitador que señala el final del mensaje.
 
-# 3. ¿Para qué sirve cada parte del mensaje?
-Cabecera: Identifica el inicio del mensaje y ayuda a sincronizar la comunicación entre el emisor y el receptor. También puede especificar el tipo de mensaje o la versión del protocolo.
+# 3. Para qué sirve cada parte del mensaje
+
+- Cabecera: Identifica el inicio del mensaje y ayuda a sincronizar la comunicación entre el emisor y el receptor. También puede especificar el tipo de mensaje o la versión del protocolo.
 
 - Comando: Indica lo que el dispositivo debe hacer. Por ejemplo, en un sensor, un comando puede solicitar que envíe una medición o cambie a un modo de operación diferente.
 
@@ -35,15 +34,13 @@ Cabecera: Identifica el inicio del mensaje y ayuda a sincronizar la comunicació
 - Terminator: Marca el final del mensaje para que el receptor sepa que ha recibido todo el mensaje completo.
 
 ## Ejercicio 2
-La función Serial.readBytesUntil() se ha excluido porque, como mencionas, en un protocolo binario típicamente no existe un carácter delimitador explícito que indique el fin del mensaje (como el \n en un protocolo basado en ASCII). En los protocolos binarios, los mensajes suelen tener una longitud fija o incluyen un campo especial en la estructura del mensaje (como un byte de longitud o un campo de checksum) que indica cuándo el mensaje ha terminado.
-
-- Esto significa que no hay un carácter de fin de línea (\n) o similar que se pueda usar como criterio para detener la lectura. Por lo tanto, la función Serial.readBytesUntil(), que espera hasta recibir un carácter específico para detener la lectura, no es adecuada para este tipo de protocolo.
+La función `Serial.readBytesUntil()` se ha excluido porque, como mencionas, en un protocolo binario típicamente no existe un carácter delimitador explícito que indique el fin del mensaje como el `\n` en un protocolo basado en ASCII
 
 ## Ejercicio 3
 El concepto de endian se refiere al orden en el que los bytes de una variable multibyte (por ejemplo, un entero o un número en punto flotante) se almacenan o se transmiten. Dependiendo del sistema, existen dos formas principales de organizar estos bytes: little endian y big endian.
 
 # 1. Little Endian
-En el formato little endian, el byte de menor peso (el byte menos significativo) se almacena o se transmite primero. Es decir, los bytes se organizan en orden inverso, desde el más pequeño al más grande.
+En el formato little endian, el byte de menor peso, se almacena o se transmite primero. Es decir, los bytes se organizan en orden inverso, desde el más pequeño al más grande.
 
 - Ej: Supongamos que tienes el número hexadecimal 0x12345678. En formato little endian, los bytes se almacenarían de la siguiente forma:
 
@@ -53,7 +50,7 @@ kotlin
 - Byte 3: 0x34
 - Byte 4: 0x12 (mayor peso)
 # 2. Big Endian
-En el formato big endian, el byte de mayor peso (el byte más significativo) se almacena o se transmite primero. Los bytes se organizan en el orden "natural" desde el más grande al más pequeño.
+En el formato big endian, el byte de mayor peso se almacena o se transmite primero. Los bytes se organizan en el orden "natural" desde el más grande al más pequeño.
 
 - Ej: Utilizando el mismo número 0x12345678, en formato big endian, los bytes se almacenarían de la siguiente forma:
 
@@ -72,7 +69,7 @@ En el código original, estás transmitiendo el número en little endian. Esto s
 - D5 55 60 45
 ¿Cómo transmitir en el endian contrario (big endian)?
 Para transmitir el número en big endian, debes enviar primero el byte más significativo (MSB) y luego el menos significativo (LSB). En este caso, simplemente inviertes el orden de los bytes antes de transmitirlos. Ya has dado una solución para esto con el siguiente código:
-
+```
 #include <Arduino.h>
 void setup() {
     Serial.begin(115200);
@@ -94,7 +91,7 @@ void loop() {
         }
     }
 }
-
+```
 - Diferencia en la transmisión:
 Little Endian: Los bytes se envían en el orden D5 55 60 45.
 Big Endian: Los bytes se envían en el orden 45 60 55 D5.
@@ -102,7 +99,7 @@ Al invertir el orden de los bytes, estás asegurando que el receptor pueda inter
 
 ## Ejercicio 5
 - Este código nos permite enviar dos números en ambos formatos endian y un tercer número adicional en little endian.
-
+```
 void setup() {
     Serial.begin(115200);
 }
@@ -138,4 +135,4 @@ void loop() {
             Serial.write(arr3, 4);
         }
     }
-}
+```
