@@ -48,22 +48,20 @@ El concepto de endian se refiere al orden en el que los bytes de una variable mu
 - Ej: Supongamos que tienes el número hexadecimal 0x12345678. En formato little endian, los bytes se almacenarían de la siguiente forma:
 
 kotlin
-Copiar código
-Byte 1: 0x78 (menor peso)
-Byte 2: 0x56
-Byte 3: 0x34
-Byte 4: 0x12 (mayor peso)
+- Byte 1: 0x78 (menor peso)
+- Byte 2: 0x56
+- Byte 3: 0x34
+- Byte 4: 0x12 (mayor peso)
 # 2. Big Endian
 En el formato big endian, el byte de mayor peso (el byte más significativo) se almacena o se transmite primero. Los bytes se organizan en el orden "natural" desde el más grande al más pequeño.
 
 - Ej: Utilizando el mismo número 0x12345678, en formato big endian, los bytes se almacenarían de la siguiente forma:
 
 kotlin
-Copiar código
-Byte 1: 0x12 (mayor peso)
-Byte 2: 0x34
-Byte 3: 0x56
-Byte 4: 0x78 (menor peso)
+- Byte 1: 0x12 (mayor peso)
+- Byte 2: 0x34
+- Byte 3: 0x56
+- Byte 4: 0x78 (menor peso)
 
 ## Ejercicio 4
 ¿En qué endian estamos transmitiendo el número?
