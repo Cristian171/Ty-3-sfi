@@ -158,8 +158,8 @@ if (_serialPort.BytesToRead >= 4) {
 
 - byte[] buffer = new byte[4];: Se declara un arreglo de bytes llamado buffer con una longitud de 4. Este arreglo se utilizará para almacenar los datos que se leen desde el puerto serie.
 
-- `if (_serialPort.BytesToRead >= 4)` {: Esta condición verifica si hay al menos 4 bytes disponibles para leer en el puerto serie. BytesToRead devuelve el número de bytes que se pueden leer sin bloquear la operación.
+- `if (_serialPort.BytesToRead >= 4)` Esta condición verifica si hay al menos 4 bytes disponibles para leer en el puerto serie. BytesToRead devuelve el número de bytes que se pueden leer sin bloquear la operación.
 
-- `_serialPort.Read(buffer, 0, 4);`: Si hay suficientes bytes disponibles, se leen 4 bytes del puerto serie y se almacenan en el buffer, comenzando en el índice 0.
+- `_serialPort.Read(buffer, 0, 4);` Si hay suficientes bytes disponibles, se leen 4 bytes del puerto serie y se almacenan en el buffer, comenzando en el índice 0.
 
-- `for (int i = 0; i < 4; i++)` { Console.Write(buffer[i].ToString("X2") + " "); }: Este bucle recorre los 4 bytes leídos del buffer. Cada byte se convierte a una representación hexadecimal de dos dígitos (con el formato "X2") y se imprime en la consola. Esto es útil para depurar y ver los datos que se han recibido.
+- `for (int i = 0; i < 4; i++)` `{ Console.Write(buffer[i].ToString("X2") + " "); }` Este bucle recorre los 4 bytes leídos del buffer. Cada byte se convierte a una representación hexadecimal de dos dígitos (con el formato "X2") y se imprime en la consola. Esto es útil para depurar y ver los datos que se han recibido.
