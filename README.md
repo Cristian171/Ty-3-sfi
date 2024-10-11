@@ -105,15 +105,13 @@ void setup() {
 }
 
 void loop() {
-    // Definir tres números en punto flotante
-    static float num1 = 3589.3645;
-    static float num2 = 1234.5678;
-    static float num3 = 8765.4321;
+    // Definir dos números en punto flotante
+    static float num1 = 4567.8912;
+    static float num2 = 3210.1234;
 
     // Crear buffers para almacenar los bytes de cada número
     static uint8_t arr1[4] = {0};
     static uint8_t arr2[4] = {0};
-    static uint8_t arr3[4] = {0};
 
     if (Serial.available()) {
         // Leer un carácter del puerto serial
@@ -121,7 +119,6 @@ void loop() {
             // Copiar los números a sus respectivos buffers en formato IEEE 754
             memcpy(arr1, (uint8_t *)&num1, 4);
             memcpy(arr2, (uint8_t *)&num2, 4);
-            memcpy(arr3, (uint8_t *)&num3, 4);
 
             // Enviar num1 en formato little endian (por defecto)
             Serial.write(arr1, 4);
@@ -130,10 +127,39 @@ void loop() {
             for (int8_t i = 3; i >= 0; i--) {
                 Serial.write(arr2[i]);
             }
-
-            // Enviar num3 en formato little endian (por defecto)
-            Serial.write(arr3, 4);
         }
     }
 }
+
 ```
+## Ejercicio 6
+```
+SerialPort _serialPort = new SerialPort();
+_serialPort.PortName = "/dev/ttyUSB0";
+_serialPort.BaudRate = 115200;
+_serialPort.DtrEnable = true;
+_serialPort.Open();
+
+byte[] data = { 0x01, 0x3F, 0x45 };
+_serialPort.Write(data, 0, 1);
+
+byte[] buffer = new byte[4];
+
+if (_serialPort.BytesToRead >= 4) {
+    _serialPort.Read(buffer, 0, 4);
+    for (int i = 0; i < 4; i++) {
+        Console.Write(buffer[i].ToString("X2") + " ");
+    }
+}
+```
+- `byte[] data = { 0x01, 0x3F, 0x45 };`: Se declara un arreglo de bytes llamado data, que contiene tres valores hexadecimales. Cada valor representa un byte que se enviará al dispositivo conectado.
+
+- `serialPort.Write(data, 0, 1)`;: Este método escribe datos en el puerto serie. Se especifica el arreglo de bytes (data), el índice inicial desde donde comenzar a escribir (0 en este caso) y el número de bytes a escribir (1). Esto significa que solo se enviará el primer byte (0x01) del arreglo.
+
+- byte[] buffer = new byte[4];: Se declara un arreglo de bytes llamado buffer con una longitud de 4. Este arreglo se utilizará para almacenar los datos que se leen desde el puerto serie.
+
+- `if (_serialPort.BytesToRead >= 4)` {: Esta condición verifica si hay al menos 4 bytes disponibles para leer en el puerto serie. BytesToRead devuelve el número de bytes que se pueden leer sin bloquear la operación.
+
+- `_serialPort.Read(buffer, 0, 4);`: Si hay suficientes bytes disponibles, se leen 4 bytes del puerto serie y se almacenan en el buffer, comenzando en el índice 0.
+
+- `for (int i = 0; i < 4; i++)` { Console.Write(buffer[i].ToString("X2") + " "); }: Este bucle recorre los 4 bytes leídos del buffer. Cada byte se convierte a una representación hexadecimal de dos dígitos (con el formato "X2") y se imprime en la consola. Esto es útil para depurar y ver los datos que se han recibido.
