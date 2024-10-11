@@ -43,7 +43,7 @@ La función Serial.readBytesUntil() se ha excluido porque, como mencionas, en un
 El concepto de endian se refiere al orden en el que los bytes de una variable multibyte (por ejemplo, un entero o un número en punto flotante) se almacenan o se transmiten. Dependiendo del sistema, existen dos formas principales de organizar estos bytes: little endian y big endian.
 
 # 1. Little Endian
-- En el formato little endian, el byte de menor peso (el byte menos significativo) se almacena o se transmite primero. Es decir, los bytes se organizan en orden inverso, desde el más pequeño al más grande.
+En el formato little endian, el byte de menor peso (el byte menos significativo) se almacena o se transmite primero. Es decir, los bytes se organizan en orden inverso, desde el más pequeño al más grande.
 
 - Ej: Supongamos que tienes el número hexadecimal 0x12345678. En formato little endian, los bytes se almacenarían de la siguiente forma:
 
