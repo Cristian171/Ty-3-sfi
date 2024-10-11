@@ -34,15 +34,15 @@ Checksum o CRC: Verifica que los datos recibidos no se hayan corrompido durante 
 
 Terminator: Marca el final del mensaje para que el receptor sepa que ha recibido todo el mensaje completo.
 
-Ejercicio 2
-La función Serial.readBytesUntil() se ha excluido porque, como mencionas, en un protocolo binario típicamente no existe un carácter delimitador explícito que indique el fin del mensaje (como el \n en un protocolo basado en ASCII). En los protocolos binarios, los mensajes suelen tener una longitud fija o incluyen un campo especial en la estructura del mensaje (como un byte de longitud o un campo de checksum) que indica cuándo el mensaje ha terminado.
+## Ejercicio 2
+- La función Serial.readBytesUntil() se ha excluido porque, como mencionas, en un protocolo binario típicamente no existe un carácter delimitador explícito que indique el fin del mensaje (como el \n en un protocolo basado en ASCII). En los protocolos binarios, los mensajes suelen tener una longitud fija o incluyen un campo especial en la estructura del mensaje (como un byte de longitud o un campo de checksum) que indica cuándo el mensaje ha terminado.
 
-Esto significa que no hay un carácter de fin de línea (\n) o similar que se pueda usar como criterio para detener la lectura. Por lo tanto, la función Serial.readBytesUntil(), que espera hasta recibir un carácter específico para detener la lectura, no es adecuada para este tipo de protocolo.
+- Esto significa que no hay un carácter de fin de línea (\n) o similar que se pueda usar como criterio para detener la lectura. Por lo tanto, la función Serial.readBytesUntil(), que espera hasta recibir un carácter específico para detener la lectura, no es adecuada para este tipo de protocolo.
 
-Ejercicio 3
+## Ejercicio 3
 El concepto de endian se refiere al orden en el que los bytes de una variable multibyte (por ejemplo, un entero o un número en punto flotante) se almacenan o se transmiten. Dependiendo del sistema, existen dos formas principales de organizar estos bytes: little endian y big endian.
 
-1. Little Endian
+# 1. Little Endian
 En el formato little endian, el byte de menor peso (el byte menos significativo) se almacena o se transmite primero. Es decir, los bytes se organizan en orden inverso, desde el más pequeño al más grande.
 
 Ejemplo: Supongamos que tienes el número hexadecimal 0x12345678. En formato little endian, los bytes se almacenarían de la siguiente forma:
@@ -53,7 +53,7 @@ Byte 1: 0x78 (menor peso)
 Byte 2: 0x56
 Byte 3: 0x34
 Byte 4: 0x12 (mayor peso)
-2. Big Endian
+# 2. Big Endian
 En el formato big endian, el byte de mayor peso (el byte más significativo) se almacena o se transmite primero. Los bytes se organizan en el orden "natural" desde el más grande al más pequeño.
 
 Ejemplo: Utilizando el mismo número 0x12345678, en formato big endian, los bytes se almacenarían de la siguiente forma:
@@ -64,11 +64,12 @@ Byte 1: 0x12 (mayor peso)
 Byte 2: 0x34
 Byte 3: 0x56
 Byte 4: 0x78 (menor peso)
-Ejercicio 4
-¿En qué endian estamos transmitiendo el número?
+
+## Ejercicio 4
+- ¿En qué endian estamos transmitiendo el número?
 En el código original, estás transmitiendo el número en little endian. Esto se debe a que la mayoría de los microcontroladores basados en arquitecturas como ARM (utilizados en placas Arduino) almacenan los datos en memoria en formato little endian de forma predeterminada.
 
-En little endian, el byte menos significativo (LSB) se transmite primero, y el byte más significativo (MSB) se transmite al final. Es decir, los bytes del número en punto flotante 3589.3645 (45 60 55 D5) se envían en el siguiente orden:
+- En little endian, el byte menos significativo (LSB) se transmite primero, y el byte más significativo (MSB) se transmite al final. Es decir, los bytes del número en punto flotante 3589.3645 (45 60 55 D5) se envían en el siguiente orden:
 
 D5 55 60 45
 ¿Cómo transmitir en el endian contrario (big endian)?
@@ -80,7 +81,7 @@ void setup() {
 }
 
 void loop() {
-    // 45 60 55 d5 // https://www.h-schmidt.net/FloatConverter/IEEE754.html
+    // 45 60 55 d5 //
     static float num = 3589.3645;
     static uint8_t arr[4] = {0};
 
@@ -100,7 +101,7 @@ Little Endian: Los bytes se envían en el orden D5 55 60 45.
 Big Endian: Los bytes se envían en el orden 45 60 55 D5.
 Al invertir el orden de los bytes, estás asegurando que el receptor pueda interpretar los datos en el formato adecuado, dependiendo de si espera little endian o big endian.
 
-Ejercicio 5
+## Ejercicio 5
 Este código nos permite enviar dos números en ambos formatos endian y un tercer número adicional en little endian.
 
 void setup() {
